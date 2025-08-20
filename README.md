@@ -65,8 +65,8 @@ frontend/
   - Permite enviar fondos a las direcciones de usuarios solicitantes.  
 
 - **`contacto-modal/` (Contacto)**  
-  - Modal de soporte o contacto con el equipo de CrediChain.  
-  - Permite que el usuario envíe un mensaje o solicitud de ayuda.  
+  - Modal de gestión de contactos.  
+  - Permite que el usuario registre mediante un alias contactos.  
 
 ---
 
