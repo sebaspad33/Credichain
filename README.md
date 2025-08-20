@@ -1,4 +1,4 @@
-# -AS222S6_T06_CrediChain
+# 🌐 Credichain - Backend
 
 Backend del proyecto **CrediChain**, una dApp de gestión de créditos en la red Ethereum (Holesky).  
 Este microservicio expone endpoints para la administración de solicitudes de crédito y contactos, integrándose con un frontend en Angular y un smart contract en Solidity.
