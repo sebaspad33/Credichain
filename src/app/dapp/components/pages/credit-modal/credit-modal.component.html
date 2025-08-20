@@ -1,0 +1,133 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div
+    class="bg-white rounded-xl shadow-xl p-8 w-full max-w-3xl h-[500px] flex flex-col justify-between animate-fade-in-up transition-transform duration-300">
+
+    <!-- Etapa 1: Información -->
+    <div *ngIf="step === 1" class="flex flex-col justify-between h-full">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6 text-center">¿Cómo funciona la solicitud de crédito?</h2>
+        <p class="text-gray-700 text-base mb-6 leading-relaxed">
+          Nuestro sistema revisará tus datos, incluyendo el monto solicitado, el plazo elegido, tu DNI y
+          número de celular para definir los términos del préstamo. En menos de 24 horas, podrás visualizar si
+          tu solicitud ha sido aceptada o no.
+        </p>
+        <p *ngIf="estadoSolicitud === 'pendiente'" class="text-red-600 font-medium text-center">
+          Tienes una solicitud pendiente. No puedes enviar otra hasta que se procese la actual.
+        </p>
+      </div>
+      <div class="flex justify-end gap-3">
+        <button (click)="closeModal()"
+                class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Cerrar
+        </button>
+        <button (click)="step = 2"
+                [disabled]="estadoSolicitud === 'pendiente'"
+                class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition disabled:opacity-50 disabled:cursor-not-allowed">
+          Solicitar crédito
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapa 2: Usuario -->
+    <div *ngIf="step === 2" class="flex flex-col justify-between h-full">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6 text-center">Ingresa tu usuario</h2>
+        <div class="mb-6 flex justify-center">
+          <input type="text" [(ngModel)]="newSoli.usuario" name="usuario"
+                 class="border border-gray-300 rounded px-4 py-2 w-64 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                 placeholder="Ingrese tu usuario" min="0.01" step="0.01">
+        </div>
+      </div>
+      <div class="flex justify-between">
+        <button (click)="step = 1"
+                class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Volver
+        </button>
+        <button (click)="step = 3"
+                class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Continuar
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapa 3: Monto -->
+    <div *ngIf="step === 3" class="flex flex-col justify-between h-full">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6 text-center">Selecciona el monto que deseas solicitar</h2>
+        <div class="mb-6 flex justify-center">
+          <input type="number" [(ngModel)]="newSoli.monto" name="monto"
+                 class="border border-gray-300 rounded px-4 py-2 w-64 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                 placeholder="Ingrese el monto en ETH" min="0.01" step="0.01">
+        </div>
+      </div>
+      <div class="flex justify-between">
+        <button (click)="step = 2"
+                class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Volver
+        </button>
+        <button (click)="step = 4"
+                class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Continuar
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapa 4: Plazo -->
+    <div *ngIf="step === 4" class="flex flex-col justify-between h-full">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6 text-center">Selecciona el plazo del préstamo</h2>
+        <div class="mb-6 flex justify-center">
+          <input type="number" [(ngModel)]="newSoli.plazo" name="plazo"
+                 class="border border-gray-300 rounded px-4 py-2 w-64 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                 placeholder="Plazo en días" min="7">
+        </div>
+      </div>
+      <div class="flex justify-between">
+        <button (click)="step = 3"
+                class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Volver
+        </button>
+        <button (click)="step = 5"
+                class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Continuar
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapa 5: DNI -->
+    <div *ngIf="step === 5" class="flex flex-col justify-between h-full">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6 text-center">Ingresa tu número de DNI o sube una imagen</h2>
+        <div class="flex flex-col items-center space-y-4">
+          <input type="text" [(ngModel)]="newSoli.dni" name="dni"
+                 class="border border-gray-300 rounded px-4 py-2 w-64 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                 placeholder="Número de DNI" maxlength="8" pattern="\d{8}">
+          <span class="text-gray-500">o</span>
+          <input type="file" (change)="onFileSelected($event)"
+                 class="border border-gray-300 rounded px-4 py-2 w-64 text-center cursor-pointer">
+        </div>
+      </div>
+      <div class="flex justify-between">
+        <button (click)="step = 4"
+                class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Volver
+        </button>
+        <button (click)="step = 6"
+                class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">Continuar
+        </button>
+      </div>
+    </div>
+
+    <!-- Etapa 6: Celular -->
+    <div *ngIf="step === 6" class="flex flex-col justify-between h-full">
+      <div>
+        <h2 class="text-2xl font-semibold mb-6 text-center">Ingresa tu número de celular</h2>
+        <div class="flex justify-center mb-6">
+          <input type="tel" [(ngModel)]="newSoli.celular" name="celular"
+                 class="border border-gray-300 rounded px-4 py-2 w-64 text-center focus:outline-none focus:ring-2 focus:ring-blue-400"
+                 placeholder="+51 9XX XXX XXX" pattern="^\+51\d{9}$">
+        </div>
+      </div>
+      <div class="flex justify-between">
+        <button (click)="step = 5"
+                class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400 transition">Volver
+        </button>
+        <button (click)="finalizarSolicitud()"
+                class="px-5 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition">Finalizar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

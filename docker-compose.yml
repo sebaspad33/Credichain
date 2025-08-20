@@ -1,0 +1,9 @@
+version: '3.8'
+
+services:
+  credichain:
+    image: sebast19/credichain_fe:v2
+    build:
+      context: .
+    ports:
+      - "4200:4200" 

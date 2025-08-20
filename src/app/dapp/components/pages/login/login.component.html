@@ -1,0 +1,142 @@
+<div class="min-h-screen w-full bg-gradient-to-br from-red-100 via-white to-red-50 flex flex-col">
+  <!-- HEADER MEJORADO -->
+  <header class="w-full bg-gradient-to-r from-red-700 via-red-600 to-red-500 shadow-lg py-4 px-8 rounded-b-3xl flex items-center justify-between">
+    <div class="flex items-center gap-4">
+      <div class="w-14 h-14 rounded-full bg-white flex items-center justify-center text-red-700 font-extrabold text-2xl shadow-md border-4 border-red-300">
+        <i class="fas fa-coins"></i>
+      </div>
+      <span class="text-white font-black text-3xl tracking-wide drop-shadow">CrediChain</span>
+    </div>
+    <div class="flex space-x-4">
+      <button (click)="connectWithMetaMask()" class="bg-white text-red-700 border-2 border-red-600 hover:bg-red-50 hover:text-red-900 transition px-5 py-2 rounded-xl font-bold shadow-md">
+        Sign In
+      </button>
+    </div>
+  </header>
+
+  <!-- DESCRIPCIÓN DE BIENVENIDA MINIMALISTA, SECCIÓN IZQUIERDA, IMAGEN DERECHA, CENTRADO REAL -->
+  <section class="flex flex-col-reverse md:flex-row items-center justify-center flex-grow w-full min-h-[80vh] px-4 py-8 bg-white/70">
+    <!-- Contenedor centralizador -->
+    <div class="flex w-full max-w-6xl mx-auto">
+      <!-- Texto a la izquierda -->
+      <div class="flex-1 flex flex-col justify-center items-start max-w-xl px-4 md:pr-8">
+        <h1 class="font-black text-5xl md:text-6xl text-red-700 mb-4 leading-tight">CrediChain</h1>
+        <h2 class="text-2xl md:text-3xl font-bold text-gray-800 mb-2">Proyecto blockchain de criptomonedas</h2>
+        <p class="text-lg md:text-xl text-gray-700 mb-6 font-medium">
+          Bienvenido a <span class="text-red-600 font-bold">CrediChain</span>, tu plataforma minimalista y profesional para gestionar, enviar y recibir criptomonedas de forma <span class="text-red-700 font-bold">segura</span> y <span class="text-red-700 font-bold">rápida</span>.<br>
+          Aprovecha la innovación de la <span class="text-red-700 font-bold">blockchain</span> para realizar transacciones transparentes, sin intermediarios y con total confianza.
+        </p>
+        <ul class="mb-6 space-y-2 text-gray-700 text-base md:text-lg">
+          <li class="flex items-center gap-2"><span class="text-green-600 text-xl">●</span> Transacciones instantáneas y globales</li>
+          <li class="flex items-center gap-2"><span class="text-green-600 text-xl">●</span> Seguridad y privacidad avanzadas</li>
+          <li class="flex items-center gap-2"><span class="text-green-600 text-xl">●</span> Interfaz simple y moderna</li>
+          <li class="flex items-center gap-2"><span class="text-green-600 text-xl">●</span> Soporte para múltiples criptomonedas</li>
+        </ul>
+        <div class="flex gap-4 mt-2">
+          <button (click)="abrirModalLogin()" class="bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl shadow transition">Comenzar ahora</button>
+        </div>
+      </div>
+      <!-- Imagen a la derecha -->
+      <div class="flex-1 flex justify-center items-center md:pl-8">
+        <img src="assets/img/Bitcoin.gif" alt="blockchain" class="w-[420px] md:w-[540px] h-auto rounded-3xl shadow-2xl border-2 border-red-200 bg-white/90 transition-all duration-300" loading="lazy">
+      </div>
+    </div>
+  </section>
+</div>
+
+<div *ngIf="mostrarModalLogin" class="modal-overlay">
+  <div class="modal-window" style="padding: 0; background: none; box-shadow: none; max-width: none;">
+    <section class="login-section" style="padding: 0; min-width: 0;">
+      <div class="login-container">
+        <!-- Botón cerrar -->
+        <button class="modal-close" (click)="cerrarModalLogin()">&times;</button>
+        <div class="login-header">
+          <h3 class="font-extrabold text-2xl text-white mb-2" style="letter-spacing: 1px;"><strong>CONECTA TU BILLETERA!</strong></h3>
+          <p>Elige tu método de autenticación preferido</p>
+        </div>
+        <div class="login-options">
+          <!-- Botón MetaMask -->
+          <button class="login-btn metamask-btn" (click)="connectWithMetaMask()">
+            <div class="btn-content">
+              <div class="btn-icon metamask-icon">
+                <img src="/assets/img/metamask.png" alt="MetaMask Logo" class="w-8 h-8 object-contain" style="background: none; border-radius: 0;" />
+              </div>
+              <div class="btn-text">
+                <span class="btn-title">MetaMask</span>
+                <span class="btn-subtitle">Conectar con MetaMask</span>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right btn-arrow"></i>
+          </button>
+
+          <button class="login-btn metamask-btn" (click)="connectWithMetaMask()">
+            <div class="btn-content">
+              <div class="btn-icon solana-icon">
+                <img src="/assets/img/solana.png" alt="Solana Logo" class="w-8 h-8 object-contain" style="background: none; border-radius: 0;" />
+              </div>
+              <div class="btn-text">
+                <span class="btn-title">Solana</span>
+                <span class="btn-subtitle">Conectar con Solana</span>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right btn-arrow"></i>
+          </button>
+
+          <!-- Botón Google -->
+          <button class="login-btn google-btn" (click)="connectWithMetaMask()">
+            <div class="btn-content">
+              <div class="btn-icon google-icon">
+                <i class="fab fa-google"></i>
+              </div>
+              <div class="btn-text">
+                <span class="btn-title">Google</span>
+                <span class="btn-subtitle">Iniciar sesión con Google</span>
+              </div>
+            </div>
+            <i class="fas fa-arrow-right btn-arrow"></i>
+          </button>
+
+                    <!-- Separador visual -->
+          <div class="flex items-center my-2">
+            <div class="flex-grow border-t border-gray-500 opacity-30"></div>
+            <span class="mx-3 text-gray-400 text-sm font-medium select-none">Or use a provider</span>
+            <div class="flex-grow border-t border-gray-500 opacity-30"></div>
+          </div>
+
+          <!-- Botones Discord y GitHub en la misma fila, pero con el mismo diseño que los otros -->
+          <div class="flex gap-3 w-full mb-2">
+            <button class="login-btn discord-btn flex-1 py-2 px-0 min-w-0" style="min-width:0;max-width:180px;justify-content:center;display:flex;align-items:center;" (click)="connectWithMetaMask()">
+              <div class="btn-content" style="justify-content:center;">
+                <div class="btn-icon discord-icon">
+                  <i class="fab fa-discord"></i>
+                </div>
+                <div class="btn-text">
+                  <span class="btn-title">Discord</span>
+                </div>
+              </div>
+            </button>
+            <button class="login-btn github-btn flex-1 py-2 px-0 min-w-0" style="min-width:0;max-width:180px;justify-content:center;display:flex;align-items:center;" (click)="connectWithMetaMask()">
+              <div class="btn-content" style="justify-content:center;">
+                <div class="btn-icon github-icon">
+                  <i class="fab fa-github"></i>
+                </div>
+                <div class="btn-text">
+                  <span class="btn-title">GitHub</span>
+                </div>
+              </div>
+            </button>
+          </div>
+
+        </div>
+        <div class="security-notice">
+          <div class="security-icon">
+            <i class="fas fa-shield-check"></i>
+          </div>
+          <div class="security-text">
+            <p>Tus datos están protegidos con encriptación</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>

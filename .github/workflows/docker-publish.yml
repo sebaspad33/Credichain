@@ -1,0 +1,41 @@
+name: Build & Push Docker Image
+
+on:
+  push:
+    branches:
+      - develop
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+    
+      # 🟢 Clonar el repositorio
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 🟢 Obtener el último tag de Docker
+      - name: Obtener el último tag
+        id: get-tag
+        run: |
+          LATEST_TAG=$(curl -s "https://hub.docker.com/v2/repositories/sebast19/credichain_fe/tags" | jq -r '.results[].name' | sort -V | tail -n 1)
+          echo "Último tag encontrado: $LATEST_TAG"
+          VERSION_BASE=$(echo "$LATEST_TAG" | awk -F. '{print $1}')
+          VERSION_MINOR=$(echo "$LATEST_TAG" | awk -F. '{print $2}')
+          NEXT_TAG="$VERSION_BASE.$((VERSION_MINOR + 1))"
+          echo "NEXT_TAG=$NEXT_TAG" >> $GITHUB_ENV
+
+      # 🟢 Configurar acceso a Docker Hub
+      - name: Login to Docker Hub
+        run: |
+          echo "${{ secrets.DOCKER_TOKEN }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+
+      # 🟢 Construir y etiquetar la imagen
+      - name: Build Docker Image
+        run: |
+          docker build -t sebast19/credichain_fe:${{ env.NEXT_TAG }} .
+
+      # 🟢 Subir la imagen a Docker Hub
+      - name: Push Docker Image
+        run: |
+          docker push sebast19/credichain_fe:${{ env.NEXT_TAG }}

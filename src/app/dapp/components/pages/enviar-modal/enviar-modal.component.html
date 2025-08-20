@@ -1,0 +1,109 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div
+    class="bg-white rounded-xl shadow-xl w-full max-w-lg h-[500px] flex flex-col animate-fade-in-up transition-transform duration-300">
+
+    <!-- Header: Título -->
+    <div class="bg-gradient-to-r from-red-700 via-red-600 to-red-800 p-4">
+      <h2 class="text-2xl font-bold text-center text-white">Transferencia de ETH</h2>
+    </div>
+
+    <!-- Área scrollable para inputs -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-6">
+
+      <!-- Sección "De" -->
+      <div class="flex items-center p-4 border rounded-xl shadow-sm bg-gradient-to-r from-blue-50 to-blue-100 space-x-4">
+        <img [src]="avatarUrl" alt="Avatar"
+             class="w-12 h-12 rounded-full border border-blue-200"/>
+        <div class="flex-1 flex items-center justify-between">
+          <div>
+            <h4 class="text-md font-semibold text-gray-800">Tú</h4>
+            <p class="text-sm text-gray-500">{{ shortenAddress(addressUsuario) }}</p>
+          </div>
+          <div class="text-right">
+            <p class="text-sm text-gray-500">
+              <span class="font-medium">{{ ethBalance | number:'1.0-0' }}</span>
+              <span class="font-bold"> ETH</span>
+            </p>
+            <p class="text-sm text-gray-500">
+              <span class="font-medium">{{ (ethBalance * ethPricePEN) | number:'1.2-5' }}</span>
+              <span class="font-bold"> PEN</span>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección "Para" -->
+      <div class="space-y-4">
+        <label class="block text-sm font-medium text-gray-600">Para</label>
+        <input type="text" [(ngModel)]="direccionDestino" placeholder="Ingrese la dirección pública (0x)"
+               class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"/>
+      </div>
+
+      <!-- Input del monto solo si la dirección es válida -->
+      <div *ngIf="direccionValida()" class="space-y-4">
+        <label class="block text-sm font-medium text-gray-600">Monto (ETH)</label>
+        <input type="number" [(ngModel)]="monto" placeholder="0.01"
+               class="w-full mt-1 p-2 border rounded-lg focus:outline-none focus:ring focus:ring-blue-300"/>
+      </div>
+
+      <!-- Mensaje de éxito al completar la transacción -->
+      <div *ngIf="transaccionExitosa" class="text-center text-green-600 font-bold text-lg mt-4">
+        ✅ Transacción completada =D
+      </div>
+
+      
+<div class="flex items-center space-x-4 mt-2 mb-2">
+  <label class="flex items-center cursor-pointer">
+    <input type="radio" [(ngModel)]="envioPorContrato" [value]="false" class="form-radio text-blue-600" name="tipoEnvio">
+    <span class="ml-2 text-gray-700">Enviar directo</span>
+  </label>
+  <label class="flex items-center cursor-pointer">
+    <input type="radio" [(ngModel)]="envioPorContrato" [value]="true" class="form-radio text-red-600" name="tipoEnvio">
+    <span class="ml-2 text-gray-700">Enviar por contrato</span>
+  </label>
+</div>
+
+      <!-- Botón de enviar -->
+      <button
+        *ngIf="direccionValida() && monto && !transaccionExitosa"
+        class="mt-4 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700"
+        (click)="enviarETH()">
+        Enviar ETH
+      </button>
+
+    </div>
+
+    <!-- Área fija (footer) con la sección de Contactos y botón de cerrar -->
+    <div class="border-t border-gray-300 bg-white p-4">
+
+      <!-- Sección de Contactos (fija y scrollable en caso de muchos contactos) -->
+      <div class="mb-4">
+        <h3 class="text-gray-700 font-semibold mb-2">Contactos:</h3>
+
+        <!-- Si hay contactos -->
+        <div *ngIf="contactos.length > 0" class="max-h-40 overflow-y-auto">
+          <div class="grid grid-cols-2 gap-4">
+            <div *ngFor="let contacto of contactos"
+                 class="flex items-center p-2 border rounded-lg cursor-pointer hover:bg-gray-100"
+                 (click)="seleccionarContacto(contacto)">
+              <img [src]="avatarUrlContact(contacto.addressContacto)" alt="Avatar"
+                   class="w-10 h-10 rounded-full border border-gray-300 mr-2">
+              <span class="text-sm text-gray-700">{{ contacto.nameContacto }}</span>
+            </div>
+          </div>
+        </div>
+        <!-- Si no hay contactos -->
+        <div *ngIf="contactos.length === 0" class="text-center text-gray-500 mt-6">
+          No tienes contactos guardados. =C
+        </div>
+      </div>
+
+      <!-- Botón de cerrar -->
+      <div class="flex justify-end">
+        <button class="px-5 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400" (click)="closeModal()">
+          Cerrar
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

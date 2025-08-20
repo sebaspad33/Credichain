@@ -1,0 +1,94 @@
+<div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+  <div class="relative bg-white text-gray-800 p-8 rounded-2xl shadow-2xl max-w-4xl w-full border border-gray-300">
+
+    <!-- Botón de cierre (X) fijo en la esquina superior derecha -->
+    <button class="absolute top-2 right-2 text-gray-600 hover:text-gray-800 text-3xl" (click)="onClose()">
+      &times;
+    </button>
+
+    <!-- Contenedor scrollable para el contenido extenso -->
+    <div class="overflow-y-auto" style="max-height: calc(100vh - 160px);">
+      <!-- Sección: Introducción -->
+      <div class="text-center mb-10">
+        <h1 class="text-4xl font-extrabold text-red-700">Bienvenido a Credichain</h1>
+        <p class="mt-4 text-lg leading-relaxed text-gray-700">
+          Una aplicación descentralizada en Ethereum que facilita microcréditos en ETH, transferencias entre usuarios
+          y gestión de contactos. ¡Transacciones seguras, rápidas y sin intermediarios!
+        </p>
+      </div>
+
+      <!-- Sección: Objetivos -->
+      <div class="bg-gray-100 p-6 rounded-xl shadow-md mb-6">
+        <h2 class="text-2xl font-semibold text-red-600">Objetivos Específicos</h2>
+        <ul class="mt-4 text-gray-700 space-y-2">
+          <li>✅ Microcréditos en ETH mediante contratos inteligentes.</li>
+          <li>🔄 Transferencias directas entre usuarios.</li>
+          <li>📒 Gestión descentralizada de contactos.</li>
+          <li>📜 Seguridad y transparencia con Smart Contracts.</li>
+          <li>📊 Interfaz intuitiva para gestión de créditos.</li>
+        </ul>
+      </div>
+
+      <!-- Sección: Beneficios -->
+      <div class="bg-gray-100 p-6 rounded-xl shadow-md mb-6">
+        <h2 class="text-2xl font-semibold text-red-600">Beneficios</h2>
+        <div class="grid grid-cols-2 gap-4 mt-4">
+          <div class="flex items-center space-x-2">
+            <span class="text-green-500">✔</span>
+            <p class="text-gray-700">Descentralización: Sin intermediarios financieros.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-green-500">✔</span>
+            <p class="text-gray-700">Acceso universal desde cualquier parte del mundo.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-green-500">✔</span>
+            <p class="text-gray-700">Seguridad con contratos auditables.</p>
+          </div>
+          <div class="flex items-center space-x-2">
+            <span class="text-green-500">✔</span>
+            <p class="text-gray-700">Transparencia: Registro inmutable de transacciones.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Sección: Características -->
+      <div class="bg-gray-100 p-6 rounded-xl shadow-md mb-6">
+        <h2 class="text-2xl font-semibold text-red-600">Características principales</h2>
+        <ul class="mt-4 text-gray-700 space-y-2">
+          <li>✅ Préstamos P2P en ETH con condiciones predefinidas.</li>
+          <li>🔄 Transferencias rápidas y directas en Holesky.</li>
+          <li>📒 Gestión de contactos descentralizada.</li>
+          <li>📜 Smart Contracts transparentes para pagos seguros.</li>
+          <li>📊 Historial de todas las transacciones.</li>
+        </ul>
+      </div>
+
+      <!-- Sección: Desarrolladores -->
+      <div class="mt-10 text-center">
+        <h2 class="text-2xl font-semibold text-red-600 mb-6">Desarrolladores</h2>
+        <div class="flex justify-center space-x-8">
+          <div class="flex flex-col items-center">
+            <img src="assets/img/sebas.jpg" alt="Sebastián Padin Munayco"
+                 class="w-24 h-24 rounded-full shadow-lg border-4 border-red-500">
+            <p class="mt-2 text-lg font-medium text-gray-700">Sebastián Padin Munayco</p>
+          </div>
+          <div class="flex flex-col items-center">
+            <img src="assets/img/Frank.jpg" alt="Frank Gallo Sánchez"
+                 class="w-24 h-24 rounded-full shadow-lg border-4 border-red-500">
+            <p class="mt-2 text-lg font-medium text-gray-700">Frank Gallo Sánchez</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Fin del contenedor scrollable -->
+
+    <!-- Sección: Botón de acceso para cerrar el popup (fuera del contenedor scrollable para estar siempre visible) -->
+    <div class="mt-8 flex justify-center">
+      <button (click)="onClose()"
+              class="px-6 py-3 bg-red-700 text-white text-lg font-semibold rounded-lg hover:bg-red-800 transition">
+        Comenzar 🚀
+      </button>
+    </div>
+  </div>
+</div>

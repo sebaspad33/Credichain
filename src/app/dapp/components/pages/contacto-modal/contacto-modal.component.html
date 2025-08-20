@@ -1,0 +1,85 @@
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+  <div class="bg-white rounded-2xl shadow-2xl w-full max-w-lg h-[500px] flex flex-col overflow-hidden transform transition-all duration-300">
+
+    <!-- HEADER CON DEGRADADO ROJO -->
+    <div class="bg-gradient-to-r from-red-700 via-red-600 to-red-800 p-4">
+      <h2 class="text-2xl font-bold text-center text-white">Contacto Nuevo</h2>
+    </div>
+
+    <!-- CONTENIDO SCROLLABLE -->
+    <div class="flex-1 overflow-y-auto p-6">
+      <!-- STEP 1: LISTADO DE CONTACTOS -->
+      <ng-container *ngIf="step === 1">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Mis Contactos</h3>
+
+        <!-- Si no hay contactos para el usuario logueado -->
+        <div *ngIf="contactos.length === 0" class="flex flex-col items-center text-center text-gray-500 mt-6">
+          <svg class="w-16 h-16 text-gray-300 mb-2" fill="none" stroke="currentColor" stroke-width="1.5"
+               viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-5-5.917V4a2 2 0 10-4 0v1.083A6.002 6.002 0 004 11v3.159c0 .538-.214 1.055-.595 1.436L2 17h5m8 0v1a3 3 0 01-6 0v-1m6 0H9" />
+          </svg>
+          <p>No tienes contactos para mostrar.</p>
+        </div>
+
+        <!-- Listado de contactos del usuario -->
+        <div *ngIf="contactos.length > 0" class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+          <div *ngFor="let c of contactos" class="flex items-center p-4 border border-gray-200 rounded-lg shadow-sm hover:shadow-md transition-shadow">
+            <img [src]="avatarUrl(c.addressContacto)" alt="Avatar"
+                 class="w-12 h-12 rounded-full border border-gray-200 mr-3">
+            <div>
+              <h4 class="text-md font-semibold text-gray-800">{{ c.nameContacto }}</h4>
+              <p class="text-sm text-gray-500">{{ shortenAddress(c.addressContacto) }}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Botón para ir al formulario de nuevo contacto -->
+        <div class="mt-6 flex justify-end">
+          <button (click)="step = 2"
+                  class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+            Agregar Contacto
+          </button>
+        </div>
+      </ng-container>
+
+      <!-- STEP 2: FORMULARIO PARA AGREGAR UN NUEVO CONTACTO -->
+      <ng-container *ngIf="step === 2">
+        <h3 class="text-xl font-semibold text-gray-800 mb-4">Agregar Contacto</h3>
+        <div class="space-y-4">
+          <div>
+            <label class="block text-sm font-medium text-gray-600">Nombre del contacto</label>
+            <input type="text" [(ngModel)]="newContact.nameContacto" name="nameContacto" placeholder="Agregar alias"
+                   class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300">
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-gray-600">Dirección pública de Ethereum</label>
+            <input type="text" [(ngModel)]="newContact.addressContacto" name="addressContacto" placeholder="0x..."
+                   class="w-full mt-1 p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-300">
+          </div>
+        </div>
+      </ng-container>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="p-4 border-t border-gray-200 bg-gray-50 flex justify-end space-x-3">
+      <ng-container *ngIf="step === 2">
+        <button (click)="step = 1"
+                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors">
+          Cancelar
+        </button>
+        <button (click)="addContact()"
+                class="px-5 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition">
+          Guardar
+        </button>
+      </ng-container>
+      <ng-container *ngIf="step === 1">
+        <button (click)="cerrarModal()"
+                class="px-4 py-2 bg-gray-300 text-gray-700 rounded-md hover:bg-gray-400 transition-colors">
+          Cerrar
+        </button>
+      </ng-container>
+    </div>
+
+  </div>
+</div>

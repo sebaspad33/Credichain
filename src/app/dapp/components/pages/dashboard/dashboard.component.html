@@ -1,0 +1,351 @@
+<app-start *ngIf="showStartPopup" (closePopup)="closeStartPopup()"></app-start>
+<div class="flex h-screen w-screen bg-slate-100 text-black antialiased selection:bg-blue-600 selection:text-white">
+  <div class="flex flex-col flex-grow overflow-y-auto">
+
+    <!-- Navbar -->
+    <app-navbar></app-navbar>
+
+    <!-- Contenedor principal -->
+    <div class="px-6 mt-6 flex-grow flex flex-col items-center min-h-[900px]">
+
+      <!-- Tarjeta madre -->
+      <div
+        class="mt-6 p-8 bg-gray-200 text-gray-700 rounded-xl shadow-xl w-full max-w-screen-lg flex flex-col items-center">
+
+        <!-- Selector de red centrado -->
+        <select (change)="onNetworkChange($event)"
+        class="px-3 py-2 w-49 rounded-lg bg-red-700 text-white border border-red-800 focus:ring-2 focus:ring-red-500 text-center">
+  <option *ngFor="let net of availableNetworks" [value]="net.name.toLowerCase()">
+    {{ net.name }}
+  </option>
+</select>
+
+        <!-- Visualizador de ETH -->
+        <div class="mt-6 flex flex-col items-center">
+          <img alt="img eth" src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg"
+               class="w-16">
+          <p class="text-4xl font-bold mt-2">{{ ethBalance | number:'1.5-5' }}ETH</p>
+          <p class="text-sm text-gray-700">{{ ethBalance * ethPriceUSD | currency:'USD':'symbol':'1.2-5' }}
+          </p>
+          <p class="text-sm text-gray-700">{{ ethBalance * ethPricePEN | currency:'PEN':'symbol':'1.2-5' }}
+          </p>
+
+          <!-- Botones de acción -->
+          <div class="mt-4 flex gap-4">
+            <!-- Boton de Enviar -->
+            <div class="flex flex-col items-center">
+              <button
+                class="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition"
+                (click)="openSendModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M22 10V6a2 2 0 00-2-2h-4M2 14v4a2 2 0 002 2h4m14-6l-6 6m0 0l-6-6m6 6V2"/>
+                </svg>
+              </button>
+              <p class="text-sm text-gray-700 mt-1">Enviar</p>
+            </div>
+            <app-enviar-modal *ngIf="showSendModal"
+                              (close)="closeSendModal()">
+            </app-enviar-modal>
+
+            <!-- Botón Recibir -->
+            <div class="flex flex-col items-center">
+              <button
+                class="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 14v7m4-4l-4 4m-4-4l4 4m-6-18h12"/>
+                </svg>
+              </button>
+              <p class="text-sm text-gray-700 mt-1">Recibir</p>
+            </div>
+
+            <!-- Botón Crédito -->
+            <div class="flex flex-col items-center">
+              <button
+                class="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition"
+                (click)="openCreditModal()">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 6h16M4 12h16M4 18h10a2 2 0 002-2v-4a2 2 0 00-2-2H4a2 2 0 00-2 2v4a2 2 0 002 2z"/>
+                </svg>
+              </button>
+              <p class="text-sm text-gray-700 mt-1">Crédito</p>
+            </div>
+            <app-credit-modal *ngIf="showCreditModal" (close)="closeCreditModal()"></app-credit-modal>
+
+
+            <!-- Botón QR -->
+            <div class="flex flex-col items-center">
+              <button
+                class="w-14 h-14 flex items-center justify-center rounded-full bg-blue-500 text-white hover:bg-blue-600 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M4 4h16v16H4V4zm4 4h2v2H8V8zm6 0h2v2h-2V8zm-6 6h2v2H8v-2zm6 0h2v2h-2v-2z"/>
+                </svg>
+              </button>
+              <p class="text-sm text-gray-700 mt-1">QR</p>
+            </div>
+          </div>
+
+          <!-- Tarjeta con pestañas -->
+          <div
+            class="mt-6 w-[700px] h-auto min-h-[300px] bg-white text-gray-700 rounded-xl shadow-lg p-8 flex flex-col items-center">
+
+            <!-- Pestañas -->
+            <div class="flex gap-4 border-b border-gray-300 w-full justify-center pb-2">
+              <button (click)="activeTab = 'tokens'"
+                      [class]="activeTab === 'tokens' ? 'px-4 py-2 font-semibold text-red-600 border-b-2 border-red-600' : 'px-4 py-2 font-semibold hover:text-red-600 hover:border-b-2 hover:border-red-600 transition'">
+                Tokens
+              </button>
+
+              <button (click)="activeTab = 'seguimiento'"
+                      [class]="activeTab === 'seguimiento' ? 'px-4 py-2 font-semibold text-red-600 border-b-2 border-red-600' : 'px-4 py-2 font-semibold hover:text-red-600 hover:border-b-2 hover:border-red-600 transition'">
+                Seguimiento
+              </button>
+
+              <button (click)="activeTab = 'historial'"
+                      [class]="activeTab === 'historial' ? 'px-4 py-2 font-semibold text-red-600 border-b-2 border-red-600' : 'px-4 py-2 font-semibold hover:text-red-600 hover:border-b-2 hover:border-red-600 transition'">
+                Historial
+              </button>
+            </div>
+
+            <!-- Contenido de pestañas -->
+            <div class="w-full mt-4">
+              <!-- Contenido de tokens de ETH  -->
+              <div *ngIf="activeTab === 'tokens'" class="flex justify-center">
+                <div
+                  class="group w-full max-w-3xl h-[80px] bg-gradient-to-r from-red-700 to-red-500 text-white rounded-xl shadow-md flex items-center justify-between px-6 transition-transform duration-300 hover:scale-[1.02] hover:shadow-xl cursor-pointer">
+
+                  <!-- Ícono a la izquierda -->
+                  <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md">
+                      <img src="https://upload.wikimedia.org/wikipedia/commons/6/6f/Ethereum-icon-purple.svg"
+                           alt="ETH Logo"
+                           class="w-6 h-6">
+                    </div>
+                  </div>
+
+                  <!-- Balance a la derecha -->
+                  <div class="text-right">
+                    <p class="text-xl font-semibold drop-shadow-sm">{{ ethBalance | number:'1.5-5' }} ETH</p>
+                  </div>
+
+                </div>
+              </div>
+              <!-- Seguimiento -->
+              <div *ngIf="activeTab === 'seguimiento' && solicitud">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4 text-center">Estado de última Solicitud</h3>
+
+                <!-- Flujo de estado -->
+                <div class="flex items-center justify-between w-full max-w-lg mx-auto mb-6">
+                  <!-- Etapa 1: Solicitud -->
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 h-8 rounded-full" [ngClass]="getEstadoClase('solicitud')"></div>
+                    <p class="text-sm mt-2 text-gray-700">Solicitud</p>
+                  </div>
+
+                  <div class="flex-1 h-1 bg-gray-300"></div>
+
+                  <!-- Etapa 2: Evaluación -->
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 h-8 rounded-full" [ngClass]="getEstadoClase('evaluacion')"></div>
+                    <p class="text-sm mt-2 text-gray-700">Evaluación</p>
+                  </div>
+
+                  <div class="flex-1 h-1 bg-gray-300"></div>
+
+                  <!-- Etapa 3: Estado -->
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 h-8 rounded-full" [ngClass]="getEstadoClase('estado')"></div>
+                    <p class="text-sm mt-2 text-gray-700">Estado</p>
+                  </div>
+
+                  <div class="flex-1 h-1 bg-gray-300"></div>
+
+                  <!-- Etapa 4: Depositado -->
+                  <div class="flex flex-col items-center">
+                    <div class="w-8 h-8 rounded-full" [ngClass]="getEstadoClase('depositado')"></div>
+                    <p class="text-sm mt-2 text-gray-700">Depositado</p>
+                  </div>
+                </div>
+
+                <!-- Leyenda de colores -->
+                <div class="flex justify-center gap-4 text-sm text-gray-700">
+                  <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-red-600"></div>
+                    <span>En Proceso</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-yellow-500"></div>
+                    <span>Pendiente</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-green-600"></div>
+                    <span>Aprobada / Depositado</span>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <div class="w-4 h-4 rounded-full bg-gray-800"></div>
+                    <span>Rechazada</span>
+                  </div>
+                </div>
+              </div>
+              <!-- Mensaje si no hay solicitud -->
+              <div *ngIf="activeTab === 'seguimiento' && !solicitud" class="text-center text-gray-600 mt-4">
+                Aún no has realizado ninguna solicitud.
+              </div>
+              <!-- Contenido de historial de transacciones -->
+              <div *ngIf="activeTab === 'historial'" class="p-6 space-y-6">
+                <!-- Toggle Switch (estilo pequeño, ya lo ajustaste anteriormente) -->
+                <div class="flex items-center">
+                  <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" [(ngModel)]="mostrarTransacciones" class="sr-only peer">
+                    <div
+                      class="w-8 h-4 bg-gray-200 peer-focus:outline-none peer-focus:ring-1 peer-focus:ring-red-500 rounded-full dark:bg-gray-700 peer-checked:bg-red-600"></div>
+                    <span class="ml-3 text-sm font-medium text-gray-900">
+                      <!-- Texto variable según estado -->
+                      {{ mostrarTransacciones ? 'Historial de Transacciones' : 'Historial de Solicitudes' }}
+                    </span>
+                  </label>
+                </div>
+                <!-- Historial de Solicitudes -->
+                <div *ngIf="!mostrarTransacciones" class="max-h-36 overflow-y-auto">
+                  <div *ngIf="solicitudesFiltradas.length > 0; else noSolicitudes">
+                    <div class="flex flex-col gap-4">
+                      <div *ngFor="let solicitud of solicitudesFiltradas"
+                           class="bg-white rounded-xl shadow-md p-4 border border-gray-200 hover:shadow-lg transition-shadow">
+                        <div class="flex justify-between items-center">
+                          <h3 class="text-lg font-bold text-red-600">Solicitud #{{ solicitud.idSolicitud }}</h3>
+                          <span class="px-2 py-1 bg-gray-100 text-xs font-semibold rounded">{{ solicitud.estado }}</span>
+                        </div>
+                        <p class="mt-2 text-sm text-gray-600">
+                          <strong>Monto:</strong> <span class="font-medium">{{ solicitud.monto }} ETH</span>
+                        </p>
+                        <p class="text-sm text-gray-600">
+                          <strong>Plazo:</strong> <span class="font-medium">{{ solicitud.plazo }} días</span>
+                        </p>
+                      </div>
+                    </div>
+
+                  </div>
+                  <ng-template #noSolicitudes>
+                    <p class="text-center text-gray-500">No tienes solicitudes registradas.</p>
+                  </ng-template>
+                </div>
+                <!-- Historial de Transacciones -->
+                <div *ngIf="mostrarTransacciones" class="max-h-52 overflow-y-auto">
+                  <div *ngIf="transacciones.length > 0; else noTransacciones">
+                    <div class="flex flex-col gap-4">
+                      <div *ngFor="let tx of transacciones"
+                        [ngClass]="tx.tipo === 'Contrato' ? 'bg-purple-100 border-purple-300' : 'bg-blue-100 border-blue-300'"
+                        class="rounded-xl shadow-md p-6 border hover:shadow-lg transition-shadow flex flex-col justify-between">
+
+                        <!-- Badge de tipo de transacción y fecha -->
+                        <div class="flex justify-between items-center mb-2">
+                          <span [ngClass]="tx.tipo === 'Contrato' ? 'bg-purple-500 text-white' : 'bg-blue-500 text-white'"
+                                class="px-3 py-1 rounded-full text-xs font-bold">
+                            {{ tx.tipo === 'Contrato' ? 'Envío por Contrato' : 'Envío Directo' }}
+                          </span>
+                          <span class="text-xs text-gray-600 flex items-center gap-1">
+                            <i class="fas fa-calendar-alt"></i>
+                            {{ (+tx.timeStamp * 1000) | date:'dd/MM/yyyy' }}
+                          </span>
+                        </div>
+
+                        <!-- Contenedor de información alineado -->
+                        <div class="mt-2 flex justify-between items-start">
+                          <!-- Izquierda: Origen y Destino -->
+                          <div class="space-y-3">
+                            <p class="text-sm text-gray-600 flex items-center gap-2">
+                              <i class="fas fa-user-circle text-gray-500"></i>
+                              <strong>Origen:</strong> <span class="text-gray-700">Tú</span>
+                            </p>
+                            <p class="text-sm text-gray-600 flex items-center gap-2">
+                              <i class="fas fa-user text-gray-500"></i>
+                              <strong>Destino:</strong> <span class="text-gray-700">{{ getNombreContacto(tx.to) }}</span>
+                            </p>
+                          </div>
+                          <!-- Derecha: Monto y Fecha -->
+                          <div class="text-right space-y-3">
+                            <p class="text-sm text-gray-600 flex items-center gap-2 justify-end">
+                              <i class="fas fa-coins text-gray-500"></i>
+                              <strong>Monto:</strong>
+                              <span class="font-bold text-green-600">{{ (+tx.value / 1e18) | number:'1.0-0' }} ETH</span>
+                            </p>
+                          </div>
+                        </div>
+
+                        <!-- Pie de la tarjeta (Hash y enlace) -->
+                        <div class="mt-4 border-t pt-3 flex justify-between text-sm text-gray-500">
+                          <span>Hash: {{ tx.hash | slice:0:10 }}...</span>
+                          <a [href]="getEtherscanTxUrl(tx.hash)" target="_blank"
+                             class="text-blue-500 hover:underline">Ver más</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <ng-template #noTransacciones>
+                    <p class="text-center text-gray-500">No se encontraron transacciones.</p>
+                  </ng-template>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Pie de pagina -->
+    <footer class="bg-gradient-to-r from-red-700 via-red-600 to-red-800 p-16 min-h-80 text-white">
+      <div class="max-w-screen-lg mx-auto flex flex-col sm:flex-row sm:items-start justify-between px-6">
+
+        <!-- 🔴 Logo y Nombre -->
+        <div class="flex items-center gap-3">
+          <img src="https://upload.wikimedia.org/wikipedia/commons/3/36/MetaMask_Fox.svg"
+               alt="CrediChain Logo" class="w-14 h-14">
+          <span class="text-4xl font-bold">CrediChain</span>
+        </div>
+
+        <!-- 🔵 Contenedor de Desarrolladores y Enlaces -->
+        <div class="flex flex-row gap-12">
+          <!-- 🔵 Desarrolladores -->
+          <div class="text-sm text-gray-200 space-y-2">
+            <p><strong>Desarrolladores:</strong></p>
+            <a href="https://github.com/SebastianPadin" target="_blank" class="text-blue-300 hover:underline">Sebastian Padin</a>
+            <p>📞 +51 991 136 266</p>
+
+            <a href="https://github.com/FrankGalloSanchez" target="_blank" class="text-blue-300 hover:underline">Frank Gallo</a>
+            <p>📞 +51 902 896 424</p>
+          </div>
+
+          <!-- 🟢 Sección de Enlaces (ahora al lado de desarrolladores) -->
+          <div class="text-sm text-gray-200 space-y-2">
+            <p><strong>Enlaces:</strong></p>
+            <p>
+              <a href="https://metamask.io" target="_blank" class="text-blue-300 hover:underline">Wallet Metamask</a>
+            </p>
+            <p>
+              <a href="https://holesky.etherscan.io" target="_blank" class="text-blue-300 hover:underline">Holesky Blockchain</a>
+            </p>
+            <p>
+              <a href="https://etherscan.io" target="_blank" class="text-blue-300 hover:underline">Etherscan</a>
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ⚫ Derechos Reservados -->
+      <div class="mt-24 text-center text-xs text-gray-300">
+        © CrediChain - Valle Grande 2025 – Todos los Derechos Reservados.
+      </div>
+    </footer>
+  </div>
+</div>
+
