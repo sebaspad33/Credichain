@@ -18,20 +18,20 @@ Este directorio contiene el **Frontend** de la aplicación **CrediChain**, desar
 ## 📂 Estructura del proyecto (Vistas principales)
 
 frontend/
-│── abi/ # Archivos ABI de los Smart Contracts
+│── abi/                       
 │── components/
-│ ├── pages/ 
-│ │ ├── contacto-modal/ # Modal de contacto
-│ │ ├── credit-modal/ # Modal de créditos
-│ │ ├── dashboard/ # Panel principal de usuario/admin
-│ │ ├── enviar-modal/ # Modal para transferencias de ETH
-│ │ ├── login/ # Pantalla de inicio de sesión
-│ │ ├── solicitud-modal/ # Modal para solicitar créditos
-│ │ └── start/ # Página inicial
-│ ├── components.component.html
-│ └── components.component.ts
-│── interface/ # Interfaces TypeScript (tipado de datos)
-│── service/ # Servicios (conexión con blockchain y lógica de negocio)
+│   ├── pages/                 
+│   │   ├── contacto-modal/      # Modal de contacto para soporte o consultas
+│   │   ├── credit-modal/        # Modal para visualizar y gestionar créditos
+│   │   ├── dashboard/           # Panel principal para usuarios y administradores
+│   │   ├── enviar-modal/        # Modal para realizar transferencias de ETH
+│   │   ├── login/               # Pantalla de inicio de sesión
+│   │   ├── solicitud-modal/     # Modal para solicitar créditos
+│   │   └── start/               # Página inicial de bienvenida o introducción
+│   ├── components.component.html 
+│   └── components.component.ts    
+│── interface/                   
+│── service/                     
 
 
 ---
