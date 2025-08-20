@@ -17,6 +17,7 @@ Este directorio contiene el **Frontend** de la aplicación **CrediChain**, desar
 
 ## 📂 Estructura del proyecto (Vistas principales)
 
+```
 frontend/
 │── abi/                       
 │── components/
@@ -32,7 +33,7 @@ frontend/
 │   └── components.component.ts    
 │── interface/                   
 │── service/                     
-
+```
 
 ---
 
