@@ -1,0 +1,8 @@
+version: '3.8'
+
+services:
+  ms-movement-kardex:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: frankgallosanchez23/ms-movement-kardex:ms-nph

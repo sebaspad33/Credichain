@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  frontend-credichain:
+    image: frankgallosanchez23/credichain:latest.1
+    ports:
+      - "4200:80"
+
+  backend-credichain:
+    image: frankgallosanchez23/credichain-backend:latest
+    container_name: backend-credichain
+    ports:
+      - "8080:8080"
+    env_file:
+      - .env
