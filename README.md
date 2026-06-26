@@ -1,6 +1,6 @@
 # 🌐 CrediChain
 
-**CrediChain** es una **dApp de gestión de créditos descentralizada** que permite a usuarios solicitar, aprobar o rechazar créditos de manera transparente, registrando la información tanto en una base de datos tradicional como en la **blockchain de Ethereum (Holesky Testnet)**.  
+**CrediChain** es una **dApp de gestión de créditos descentralizada** que permite a solicitar, aprobar o rechazar créditos de manera transparente, registrando la información tanto en una base de datos tradicional como en la **blockchain de Ethereum (Holesky Testnet)**.  
 
 Este proyecto integra **Frontend (Angular)**, **Backend (Spring Boot WebFlux)** y **Smart Contracts (Solidity)** para ofrecer una solución académica y funcional en el ámbito fintech descentralizado.
 
